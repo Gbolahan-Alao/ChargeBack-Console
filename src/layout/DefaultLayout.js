@@ -1,7 +1,8 @@
-import React from 'react'
-import { AppContent, AppSidebar, AppFooter, AppHeader } from '../components/index'
+// import { useState } from 'react'
+import { AppContent, AppHeader, AppSidebar } from '../components/index'
 
-const DefaultLayout = () => {
+const DefaultLayout = (props) => {
+// const [isLoginPage, setIsLoginPage] = useState(false)
   return (
     <div>
       <AppSidebar />
@@ -10,7 +11,7 @@ const DefaultLayout = () => {
         <div className="body flex-grow-1">
           <AppContent />
         </div>
-        <AppFooter />
+    
       </div>
     </div>
   )

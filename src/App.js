@@ -1,6 +1,6 @@
 import React, { Suspense, useEffect } from 'react'
-import { HashRouter, Route, Routes } from 'react-router-dom'
 import { useSelector } from 'react-redux'
+import { HashRouter, Route, Routes } from 'react-router-dom'
 
 import { CSpinner, useColorModes } from '@coreui/react'
 import './scss/style.scss'
