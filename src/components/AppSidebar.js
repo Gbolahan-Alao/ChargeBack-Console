@@ -17,10 +17,11 @@ const AppSidebar = () => {
   const sidebarShow = useSelector((state) => state.sidebarShow)
 
   return (
-    <CSidebar style={{ backgroundColor: '#521c78', color: '#fff !important'}}
+    // style={{ backgroundColor: '#521c78'}}
+    <CSidebar
+      style={{ color: '#fff !important' }}  
       className="border-end"
-      colorScheme="dark"
-    
+      colorScheme="light"
       position="fixed"
       unfoldable={unfoldable}
       visible={sidebarShow}
@@ -28,10 +29,12 @@ const AppSidebar = () => {
         dispatch({ type: 'set', sidebarShow: visible })
       }}
     >
-    <h3 style={{color: '#fff', margin:'auto'}}>Polaris Bank</h3>
+     <div>
+     <img src='../polaris.jpg' style={{height: '120px', width: '100%',margin: 'auto'}}/>
+     </div>
       <CSidebarNav>
         <SimpleBar>
-          <AppSidebarNav items={navigation} />
+          <AppSidebarNav items={navigation}  />
         </SimpleBar>
       </CSidebarNav>
       <CSidebarFooter className="border-top d-none d-lg-flex">
