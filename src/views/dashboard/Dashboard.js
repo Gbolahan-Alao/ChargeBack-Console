@@ -177,7 +177,7 @@ const Dashboard = () => {
 
   return (
     <>
-      <WidgetsDropdown className="mb-4" />
+      <WidgetsDropdown className="mb-4" all={2500}  approved={2000} pending={400} rejected={100} />
       <CCard className="mb-4"> 
         <CCardBody>
           <CRow>

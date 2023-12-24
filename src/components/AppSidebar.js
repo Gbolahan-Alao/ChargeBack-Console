@@ -19,7 +19,7 @@ const AppSidebar = () => {
   return (
     // style={{ backgroundColor: '#521c78'}}
     <CSidebar
-      style={{ color: '#fff !important' }}  
+      style={{ color: '#fff !important' }}
       className="border-end"
       colorScheme="light"
       position="fixed"
@@ -29,12 +29,26 @@ const AppSidebar = () => {
         dispatch({ type: 'set', sidebarShow: visible })
       }}
     >
-     <div>
-     <img src='../polaris.jpg' style={{height: '120px', width: '100%',margin: 'auto'}}/>
-     </div>
+      <div style={{ margin: '20px', height: '100px', display: 'flex', marginBottom: '0px' }}>
+        <div
+          style={{
+            height: '50px',
+            width: '50px',
+            borderRadius: '50%',
+            marginRight: '10px',
+            backgroundImage: "url('../polaris.jpg')",
+            alignSelf: 'center',
+            backgroundPosition: 'center',
+            backgroundSize: 'cover',
+          }}
+        ></div>
+        <div style={{ alignSelf: 'center', marginTop: '12px' }}>
+          <h5 style={{ color: '#521c78' }}>Polaris Bank</h5>
+        </div>
+      </div>
       <CSidebarNav>
         <SimpleBar>
-          <AppSidebarNav items={navigation}  />
+          <AppSidebarNav items={navigation} />
         </SimpleBar>
       </CSidebarNav>
       <CSidebarFooter className="border-top d-none d-lg-flex">

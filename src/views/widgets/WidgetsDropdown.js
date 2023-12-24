@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import { useEffect, useRef } from 'react'
 
-import { cilArrowBottom, cilArrowTop, cilOptions } from '@coreui/icons'
+import { cilOptions } from '@coreui/icons'
 import CIcon from '@coreui/icons-react'
 import {
   CCol,
@@ -37,6 +37,8 @@ const WidgetsDropdown = (props) => {
     })
   }, [widgetChartRef1, widgetChartRef2])
 
+
+
   return (
     <CRow className={props.className} xs={{ gutter: 4 }}>
       <CCol sm={6} xl={4} xxl={3}>
@@ -44,9 +46,9 @@ const WidgetsDropdown = (props) => {
           color="primary"
           value={
             <>
-              55635{' '}
+              {props.all}
               <span className="fs-6 fw-normal">
-                (100% <CIcon icon={cilArrowBottom} />)
+                (100%)
               </span>
             </>
           }
@@ -134,9 +136,9 @@ const WidgetsDropdown = (props) => {
           color="info"
           value={
             <>
-              3212{' '}
+              {props.approved}
               <span className="fs-6 fw-normal">
-                (79.9% <CIcon icon={cilArrowTop} />)
+                ({Math.round((props.approved/props.all)*100)}%)
               </span>
             </>
           }
@@ -223,9 +225,9 @@ const WidgetsDropdown = (props) => {
           color="warning"
           value={
             <>
-              249{' '}
+              {props.pending}
               <span className="fs-6 fw-normal">
-                (4.7% <CIcon icon={cilArrowTop} />)
+                ({Math.round((props.pending/props.all)*100)}%)
               </span>
             </>
           }
@@ -295,9 +297,9 @@ const WidgetsDropdown = (props) => {
           color="danger"
           value={
             <>
-              123{' '}
-              <span className="fs-6 fw-normal">
-                (6% <CIcon icon={cilArrowBottom} />)
+            {props.rejected}
+              <span className="fs-6 ">
+                ({Math.round((props.rejected/props.all)*100)}%)
               </span>
             </>
           }

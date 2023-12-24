@@ -1,120 +1,76 @@
-import { useEffect, useRef, useState } from 'react';
-import { RiArrowDropDownLine } from 'react-icons/ri';
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+
 import './Merchants.css';
 
-const merchants = ['Team PT', 'Fair Money', 'Palmpay'];
+const data = [
+  { id: 1, serialNumber: 1, merchant: 'Team APT' },
+  { id: 2, serialNumber: 2, merchant: 'Fair Money' },
+  { id: 3, serialNumber: 3, merchant: 'Palmpay' },
+];
 
-const Merchants = () => {
-  const [selectedMerchant, setSelectedMerchant] = useState(null);
-  const dropdownRef = useRef(null);
+const MerchantsTable = () => {
+  const navigate = useNavigate();
+
+  const optionsClickHandler = (merchant, action) => {
+    navigate(`/merchants/${merchant.replace(/\s/g, '').toLowerCase()}/${action.toLowerCase()}`);
+  };
 
   useEffect(() => {
-    const handleOutsideClick = (event) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        // Clicked outside the dropdown, close the options
-        setSelectedMerchant(null);
-      }
-    };
-
-    // Add event listener when component mounts
-    document.addEventListener('mousedown', handleOutsideClick);
-
-    // Clean up the event listener when component unmounts
     return () => {
-      document.removeEventListener('mousedown', handleOutsideClick);
+      console.log('Cleanup code');
     };
   }, []);
 
-  const handleDropdownToggle = (merchant) => {
-    setSelectedMerchant(selectedMerchant === merchant ? null : merchant);
-  };
-
-  const handleOptionClick = (merchant, option) => {
-    // Perform navigation based on the selected merchant and option
-    // Replace '/destination' with the actual path you want to navigate to
-    console.log(`Navigating to ${merchant} - Option: ${option}`);
-  };
-
   return (
-    <div className="merchants-body">
-      <div className="add-merchant">
-        <a href="#">Add Merchants</a>
-      </div>
-      <div className="merchants-table">
-        {merchants.map((merchant) => (
-          <div key={merchant} className="merchant-item">
-            <p>{merchant}</p>
-            {selectedMerchant === merchant && (
-              <div className="dropdown-options" ref={dropdownRef}>
-                <div
-                  className="option"
-                  onClick={() => handleOptionClick(merchant, 'Option 1')}
+    <div className='merchant-container'>
+    <div className='add-merchant-container'>
+    <button >Add Merchant</button>
+    </div>
+      <table className="table borderless-table">
+        <thead>
+          <tr>
+            <th scope="col"></th>
+            <th scope="col">Merchants</th>
+          </tr>
+        </thead>
+        <tbody>
+          {data.map((row) => (
+            <tr key={row.id}>
+              <th scope="row">{row.serialNumber}</th>
+              <td colSpan="2" className="col-6">
+                {row.merchant}
+              </td>
+              <td className="td">
+                <button
+                  className="action-button"
+                  onClick={() => optionsClickHandler(row.merchant, 'transactions')}
                 >
                   Transactions
-                </div>
-                <div
-                  className="option"
-                  onClick={() => handleOptionClick(merchant, 'Option 2')}
+                </button>
+              </td>
+              <td className="td">
+                <button
+                  className="action-button"
+                  onClick={() => optionsClickHandler(row.merchant, 'add-user')}
                 >
                   Add user
-                </div>
-                <div
-                  className="option"
-                  onClick={() => handleOptionClick(merchant, 'Option 3')}
+                </button>
+              </td>
+              <td className="td">
+                <button
+                  className="border-button"
+                  onClick={() => optionsClickHandler(row.merchant, 'settings')}
                 >
-                 Settings
-                </div>
-              </div>
-            )}
-            <RiArrowDropDownLine onClick={() => handleDropdownToggle(merchant)} />
-          </div>
-        ))}
-      </div>
-    </div>   
+                  Settings
+                </button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
   );
 };
 
-export default Merchants;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// import { RiArrowDropDownLine } from 'react-icons/ri'
-// import './Merchants.css'
-
-// const merchants = ['Team PT', 'Fair Money', 'Palmpay']
-// const Merchants = () => {
-//   return (
-//     <div className="merchants-body">
-//       <div className='add-merchant'>
-//         <a href='#'>Add Merchants</a>
-//       </div>
-//       <div className="merchants-table">
-//         {merchants.map((merchant) => {
-//           return (
-//             <div className="merchant-item">
-//               <p>{merchant}</p>
-//               <RiArrowDropDownLine />
-//             </div>
-//           )
-//         })}
-//       </div>
-//     </div>
-//   )
-// }
-
-// export default Merchants
+export default MerchantsTable;

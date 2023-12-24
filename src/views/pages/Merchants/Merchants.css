@@ -1,80 +1,69 @@
-.merchants-body {
-  display: flex;
-  flex-direction: column;
-  /* background-color: red; */
-  height: 100%;
-  width: 100%;
-}
-
-.add-merchant {
-  align-self: flex-end;
-  margin: 20px 0px;
-  border: 1px solid purple;
-  padding: 2px 6px;
-  background-color: purple;
+.merchant-container{
+    display: flex;
+    flex-direction: column;
 }
 
 .merchants-table {
   width: 100%;
-  height: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
 }
 
-/* .merchant-item {
-    position: relative;
-  padding: 0px, 10px;
-  border: 0.2px solid rgb(66, 65, 65);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-} */
+th,
+td {
+  /* border: 1px solid #dddddd; */
+  text-align: left;
+  padding: 8px;
+border: none;
+}
+td {
 
-.merchant-item {
+}
+
+th {
+  background-color: #f2f2f2;
+}
+
+.add-merchant-container{
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    border-bottom: 1px solid #ccc;
-    padding: 10px;
-  }
-  
+    align-self: flex-end;
+    
+}
 
+.add-merchant-container button{
+    
+}
 
-.dropdown-options {
-    display: flex;
-    flex-direction: column;
-    position: absolute;
-    background-color: #fff;
-    border: 1px solid #ccc;
-    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
-    z-index: 1;
-    margin-top: 10px;
-    cursor: pointer;
-    right: 20px;}
-
-  .option {
-    padding: 10px;
-    transition: background-color 0.3s ease;
-  }
-  
-  .option:hover {
-    background-color: #f0f0f0;
-  }
-  
-
-  
-.merchants-body a {
+.action-button, .add-merchant-container button {
+  margin-right: 5px;
+  background-color: #521c78;
   color: white;
+  border: none;
+  padding: 8px 16px;
+  text-align: center;
   text-decoration: none;
-}
-
-.merchant-item:not(:last-child) {
-  /* margin-bottom: 4px; */
-}
-.merchant-item:not(:first-child) {
-  border-top: none;
-}
-
-.merchant-item p {
-  /* color: black; */
   display: inline-block;
-  margin: 10px;
+  font-size: 14px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.border-button {
+  border: 2px solid #521c78;
+  background-color: #fff;
+  border-radius: 4px;
+  transition: all 0.2s;
+}
+
+.border-button:hover {
+  background-color: #521c78;
+  color: #fff;
+}
+
+.action-button:hover {
+  background-color: #200633;
+}
+
+.td {
+  text-align: right;
 }
