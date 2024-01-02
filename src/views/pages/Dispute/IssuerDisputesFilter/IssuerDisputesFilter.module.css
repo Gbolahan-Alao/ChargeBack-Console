@@ -1,0 +1,59 @@
+.IssuerDisputesFilterContainer{
+    width: 100%;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+    padding: 0 16px;
+    display: flex;
+    flex-direction: column;
+    font-size: 11px;
+
+}
+
+.filterItemsGroup{
+    display: flex;
+    justify-content: space-between;
+}
+
+.IssuerDisputesFilterContainer .filterHeading{
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 8px 30px;
+}
+
+.filterItems{
+    display: flex;
+}
+.filterItems .filterTitle{
+margin-right: 30px;
+}
+.filterInput{
+    width: 100%;
+    height: 100%;
+    border: none;
+    background-color: transparent;
+}
+.filterInputBox{
+    width: 200px;
+    height: 25px;
+    border: 1px solid black;
+    border-radius: 4px;
+}
+.buttonContainer{
+    display: flex;
+    margin-left: auto;
+    padding-bottom: 5px;
+}
+
+.button{
+    margin: 3px;
+    padding: 4px 16px;
+    border-radius: 4px;
+}
+.searchButton{
+    background-color: purple;
+    color: white;
+
+}
+
+.clearButton{
+    border: 1px solid purple;
+}

@@ -1,5 +1,6 @@
 import React from 'react';
 import { useTable } from 'react-table';
+import './TransactionsTable.css';
 
 const TransactionsTable = ({ data }) => {
    
@@ -82,8 +83,8 @@ const TransactionsTable = ({ data }) => {
     useTable({ columns, data });
 
   return (
-    <table {...getTableProps()}>
-      <thead>
+    <table style={{border:'none'}}{...getTableProps()}>
+      <thead >
         {headerGroups.map(headerGroup => (
           <tr {...headerGroup.getHeaderGroupProps()}>
             {headerGroup.headers.map(column => (
@@ -109,3 +110,4 @@ const TransactionsTable = ({ data }) => {
 };
 
 export default TransactionsTable;
+

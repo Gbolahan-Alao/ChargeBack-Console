@@ -1,13 +1,13 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import 'bootstrap/dist/css/bootstrap.min.css';
 import './Merchants.css';
-
 const data = [
   { id: 1, serialNumber: 1, merchant: 'Team APT' },
   { id: 2, serialNumber: 2, merchant: 'Fair Money' },
   { id: 3, serialNumber: 3, merchant: 'Palmpay' },
-];
+]; 
 
 const MerchantsTable = () => {
   const navigate = useNavigate();
@@ -27,16 +27,16 @@ const MerchantsTable = () => {
     <div className='add-merchant-container'>
     <button >Add Merchant</button>
     </div>
-      <table className="table borderless-table">
+      <table className="table table-borderless border-0">
         <thead>
-          <tr>
+          <tr style={{ border: 'none' }}>
             <th scope="col"></th>
             <th scope="col">Merchants</th>
           </tr>
         </thead>
         <tbody>
           {data.map((row) => (
-            <tr key={row.id}>
+            <tr key={row.id} >
               <th scope="row">{row.serialNumber}</th>
               <td colSpan="2" className="col-6">
                 {row.merchant}

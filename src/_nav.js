@@ -125,7 +125,7 @@ const _nav = [
   {
     component: CNavItem,
     name: 'Issuer Disputes',
-    to: '/buttons',
+    to: '/issuer-disputes',
     icon: <CIcon icon={cilCursor} customClassName="nav-icon" />,
   //   items: [
   //     {

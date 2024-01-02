@@ -1,0 +1,84 @@
+.filterBox {
+    /* position: relative; */
+    height: 9rem;
+    width: 100%;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    /* border: 0.15px solid rgb(182, 181, 181); */
+    border-top: none;
+    margin: 0 auto;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    font-size: 12px;
+  }
+  
+  
+  .select{
+      border: none;
+      text-align: left;
+      outline: none;
+      appearance: none;
+  }
+  
+  .filterCriteria{    
+      padding:5px 10px;
+      padding-left: 40px;
+      display: flex;
+      gap: 20px;
+     
+  }
+  
+  .filterCriteriaGroup{
+      width: 100%;
+      display: flex;
+      justify-content:space-between;
+      align-items: center;
+  }
+  
+  .selectContainer{
+  width: 300px;
+  text-align: left;
+  }
+.select{
+    border: none;
+}
+  .filterLabel{
+    min-width: 250px;
+  }
+  
+  .buttonContainer{
+  
+      display: flex;
+      /* justify-content: space-between; */
+      /* padding: 5px; */
+     margin-left: auto;
+     /* margin-top: 5px; */
+      /* border: 2px solid black; */
+      width: 120px;
+      align-self: flex-end;
+      font-size: 12px;
+      margin-right:48px;
+  
+  }
+  
+  .searchButton, .clearButton{
+  display: inline-block;
+  cursor: pointer;
+  transition: all .1s;
+  border-radius: 4px;
+  padding: 4px 12px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.4);
+  }
+  
+  .searchButton:hover, .clearButton:hover{
+    transform: translateY(.5px);
+  }
+  .searchButton{
+      background-color: purple;
+      color: white;
+      margin-right: 20px;
+  }
+  .clearButton{
+      color: black;
+      border: .5px solid black;
+  }
+  

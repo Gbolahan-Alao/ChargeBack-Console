@@ -1,0 +1,95 @@
+/* Add this to your CSS file */
+.contain{
+    padding: 20px;
+    width: 100%;
+}
+.table{
+    font-size: 11px;
+}
+
+.status-cell {
+    padding: 8px;
+    text-align: center;
+  }
+  
+  .status-cell.pending {
+    border-color: orange;
+    color: orange;
+  }
+  
+  .status-cell.completed {
+    border-color: green;
+    color: green;
+  }
+  
+  .status-cell.rejected {
+    border-color: red;
+    color: red;
+  }
+  th {
+    background-color: #f2f2f2 !important;
+  }
+  .table tbody tr {
+    position: relative;
+  }
+  
+  .table tbody tr::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 4px; /* Adjust the height as needed */
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.025), transparent);
+  }
+  
+  .paginationContainer {
+    font-size: 11px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+  
+  .pagination {
+    display: flex;
+    align-items: center;
+  }
+  
+  .pagination button {
+    font-size: 11px;
+    background-color: purple;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    color: #fff;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin: 0 5px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .pagination button:disabled {
+    background-color: #dcdcdc;
+    cursor: not-allowed;
+  }
+  
+  .pagination button:hover {
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .itemsPerPage {
+    display: flex;
+    align-items: center;
+  }
+  
+  .itemsPerPage label {
+    margin-right: 10px;
+  }
+  
+  .itemsPerPage select {
+    padding: 4px;
+    border: 1px solid purple;
+    border-radius: 4px;
+  }
