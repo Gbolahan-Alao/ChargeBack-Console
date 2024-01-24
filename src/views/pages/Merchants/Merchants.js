@@ -46,7 +46,7 @@ const MerchantsTable = () => {
                   className="action-button"
                   onClick={() => optionsClickHandler(row.merchant, 'transactions')}
                 >
-                  Transactions
+                  View
                 </button>
               </td>
               <td className="td">

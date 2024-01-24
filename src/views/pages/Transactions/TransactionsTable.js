@@ -1,7 +1,5 @@
 import React from 'react';
 import { useTable } from 'react-table';
-import './TransactionsTable.css';
-
 const TransactionsTable = ({ data }) => {
    
   const columns = React.useMemo(
@@ -38,7 +36,7 @@ const TransactionsTable = ({ data }) => {
       },
       {
         Header: 'Actions',
-        accessor: 'actions', // Use file name as a unique identifier for buttons
+        accessor: 'actions',
         Cell: ({ value, row }) => (
           <button
             onClick={() => handleDownloadClick(value)}
@@ -94,7 +92,7 @@ const TransactionsTable = ({ data }) => {
         ))}
       </thead>
       <tbody {...getTableBodyProps()}>
-        {rows.map(row => {
+        {rows.map(row => { 
           prepareRow(row);
           return (
             <tr {...row.getRowProps()}>

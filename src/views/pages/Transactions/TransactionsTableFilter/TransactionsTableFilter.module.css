@@ -1,5 +1,4 @@
 .filterBox {
-    /* position: relative; */
     height: 9rem;
     width: 100%;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
@@ -49,7 +48,7 @@
   
       display: flex;
       /* justify-content: space-between; */
-      /* padding: 5px; */
+      padding: 10px 5px;
      margin-left: auto;
      /* margin-top: 5px; */
       /* border: 2px solid black; */
@@ -57,6 +56,7 @@
       align-self: flex-end;
       font-size: 12px;
       margin-right:48px;
+      
   
   }
   

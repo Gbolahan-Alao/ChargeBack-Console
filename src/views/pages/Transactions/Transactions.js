@@ -1,94 +1,3 @@
-// import WidgetsDropdown from 'src/views/widgets/WidgetsDropdown';
-
-// import 'bootstrap/dist/css/bootstrap.min.css';
-// import { IoIosCloudDownload } from "react-icons/io";
-// import { dummyData } from 'src/data/dummyTransactionsData';
-// import './TransactionsTable.css';
-// import TableFilter from './TransactionsTableFilter/TransactionsTableFilter';
-
-// const Transactions = () => {
-//   const data = dummyData
-
-//   const getStatusStyle = (status) => {
-//     switch (status) {
-//       case 'pending':
-//         return { borderColor: 'orange', color: 'orange', backgroundColor:'#fffaf0' };
-//       case 'completed':
-//         return { borderColor: 'green', color: 'green', backgroundColor:'#f0fff0' };
-//       case 'rejected':
-//         return { borderColor: 'red', color: 'red', backgroundColor: '#fff5f5' };
-//       default:
-//         return {};
-//     }
-//   };
-
-//   return (
-//     <div className='contain'>
-//     <WidgetsDropdown className="mb-4" all={400} approved={350} pending={35} rejected={15} />
-//     <TableFilter/>
-//     <table className="table table-borderless border-0">
-//     <thead style={{ backgroundColor: '#f2f2f2' }}>
-//     <tr>
-//       <th colSpan="2" className="col-3" style={{textAlign:'left'}}>File Name</th>
-//       <th style={{textAlign:"left"}} >Progress Status</th>
-//       <th style={{textAlign:"left"}}>Date Created</th>
-//       <th >#Total Successful</th>
-//       <th >#Total Failed</th>
-//       <th className="col-2" >Actions</th>
-//     </tr>
-//   </thead>
-//       <tbody>
-//         {data.map((row) => (
-//           <tr key={row.id}>
-//             <td colSpan="2" className="col-3"  style={{textAlign:'left'}}>{row.fileName}</td>
-//             <td style={{textAlign:"left"}}>
-//               <span
-//                 className={`status-cell ${row.progressStatus}`}
-//                 style={{
-//                   border: `1px solid ${getStatusStyle(row.progressStatus).borderColor}`,
-//                   color: getStatusStyle(row.progressStatus).color,
-//                   backgroundColor: getStatusStyle(row.progressStatus).backgroundColor,
-//                   padding: '2px 4px', 
-//                   textAlign: 'right',
-//                   display: 'inline-block',
-//                   borderRadius: '2px',
-//                   fontSize:'8px'
-
-//                 }}
-//               >
-//                 {row.progressStatus.toUpperCase()}
-//               </span>
-//             </td>
-//             <td style={{textAlign:"left"}}>{new Date(row.dateCreated).toLocaleString()}</td>
-//             <td style={{color:'green', textAlign:'center'}}>{row.totalSuccessful}</td>
-//             <td style={{color:'red',textAlign:'center'}}>{row.totalFailed}</td>
-//             <td className="col-2">
-//               <button
-//                 onClick={() => console.log(`Download ${row.fileName}`)}
-//                 disabled={!row.fileAvailable}
-//                 style={{
-//                   backgroundColor: row.fileAvailable ? '#F2F2F2' : 'white',
-//                   color: 'white',
-//                   cursor: row.fileAvailable ? 'pointer' : 'not-allowed',
-//                   borderRadius:'5px',
-//                   border:row.fileAvailable ? 'none': "2px solid #f2f2f2",
-//                   color:row.fileAvailable ? 'black': "#D3D3D3",
-//                   padding:'8px 16px',
-//                 }}
-//               >
-//               <IoIosCloudDownload /> Download Enriched
-//               </button>
-//             </td>
-//           </tr>
-//         ))}
-//       </tbody>
-//     </table>
-//     </div>
-//   );
-// };
-
-// export default Transactions;
-
 
 import { useState } from 'react';
 import { IoIosCloudDownload } from 'react-icons/io';
@@ -114,7 +23,7 @@ const Transactions = () => {
         return { borderColor: 'orange', color: 'orange', backgroundColor: '#fffaf0' };
       case 'completed':
         return { borderColor: 'green', color: 'green', backgroundColor: '#f0fff0' };
-      case 'rejected':
+      case 'failed':
         return { borderColor: 'red', color: 'red', backgroundColor: '#fff5f5' };
       default:
         return {};
@@ -127,7 +36,7 @@ const Transactions = () => {
 
   const handleItemsPerPageChange = (e) => {
     setItemsPerPage(parseInt(e.target.value, 10));
-    setCurrentPage(0); // Reset to the first page when changing items per page
+    setCurrentPage(0); 
   };
 
   return (
@@ -169,7 +78,6 @@ const Transactions = () => {
         <tbody>
           {currentPageData.map((row) => (
             <tr key={row.id}>
-              {/* ... (your table rows) */}
               <td colSpan="2" className="col-3"  style={{textAlign:'left'}}>{row.fileName}</td>
               <td style={{textAlign:"left"}}>
                 <span
@@ -203,7 +111,7 @@ const Transactions = () => {
                     borderRadius:'5px',
                     border:row.fileAvailable ? 'none': "2px solid #f2f2f2",
                     color:row.fileAvailable ? 'black': "#D3D3D3",
-                    padding:'8px 16px',
+                    padding:'4px 16px',
                   }}
                 >
                 <IoIosCloudDownload /> Download Enriched

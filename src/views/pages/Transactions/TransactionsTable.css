@@ -1,39 +1,39 @@
-/* Add this to your CSS file */
+
 .contain{
-    padding: 20px;
     width: 100%;
 }
-.table{
+.contain .table{
     font-size: 11px;
 }
 
-.status-cell {
+.contain .status-cell {
     padding: 8px;
     text-align: center;
   }
   
-  .status-cell.pending {
+  .contain .status-cell.pending {
     border-color: orange;
     color: orange;
   }
   
-  .status-cell.completed {
+  .contain .status-cell.completed {
     border-color: green;
     color: green;
   }
   
-  .status-cell.rejected {
+  .contain .status-cell.failed {
     border-color: red;
     color: red;
   }
-  th {
+  .contain th {
     background-color: #f2f2f2 !important;
   }
-  .table tbody tr {
+  .contain .table tbody tr {
     position: relative;
   }
   
-  .table tbody tr::after {
+  
+  .contain .table tbody tr::after {
     content: '';
     position: absolute;
     bottom: 0;
@@ -43,16 +43,16 @@
     background: linear-gradient(to top, rgba(0, 0, 0, 0.025), transparent);
   }
   
-  .paginationContainer {
+  .contain .paginationContainer {
     font-size: 11px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-top: 10px;
-    margin-bottom: 10px;
+    margin-top: 15px;
+    margin-bottom: 15px;
   }
   
-  .pagination {
+  .contain .pagination {
     display: flex;
     align-items: center;
   }

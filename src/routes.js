@@ -1,14 +1,14 @@
 import React from 'react'
 import AddUserPage from './views/pages/AddUser/AddUser'
 import IssuerDisputes from './views/pages/Dispute/IssuerDisputes/IssuerDisputes'
+import SelectIssuerDisputes from './views/pages/Dispute/SelectIssuerDisputes/SelectIssuerDisputes'
 import Merchants from './views/pages/Merchants/Merchants'
 import SettingsPage from './views/pages/Settings/Settings'
 import Transactions from './views/pages/Transactions/Transactions'
-
+import Login from './views/pages/login/Login'
 const Dashboard = React.lazy(() => import('./views/dashboard/Dashboard'))
 const Colors = React.lazy(() => import('./views/theme/colors/Colors'))
 const Typography = React.lazy(() => import('./views/theme/typography/Typography'))
-
 // Base
 const Accordion = React.lazy(() => import('./views/base/accordion/Accordion'))
 const Breadcrumbs = React.lazy(() => import('./views/base/breadcrumbs/Breadcrumbs'))
@@ -56,11 +56,12 @@ const Toasts = React.lazy(() => import('./views/notifications/toasts/Toasts'))
 const Widgets = React.lazy(() => import('./views/widgets/Widgets'))
 
 const routes = [
-  { path: '/', exact: true, name: 'Home' },
+  { path: '/', exact: true, name: 'Home',  element: Login  },
   { path: '/dashboard', name: 'Dashboard', element: Dashboard },
-  { path: '/merchants', name: 'Merchants', element: Merchants },
   { path: '/issuer-disputes', name: 'Issuer Disputes', element: IssuerDisputes },
-  { path: '/merchants/:merchant/transactions', name: 'Transactions', element: Transactions },
+  { path: '/merchants', name: 'Merchants', element: Merchants },
+  { path: '/merchants/:merchant/select-issuer-disputes', name: 'Select Issuer Disputes', element:SelectIssuerDisputes  },
+  { path: '/merchants/:merchant/transactions', name: 'Transactions', element:Transactions },
   { path: '/merchants/:merchant/add-user', name: 'Add User', element: AddUserPage },
   { path: '/merchants/:merchant/settings', name: 'Settings', element: SettingsPage },
   { path: '/theme', name: 'Theme', element: Colors, exact: true },

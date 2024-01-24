@@ -1,0 +1,71 @@
+.merchant-container {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .merchants-table {
+    width: 100%;
+    margin-top: 20px;
+  }
+  
+  .merchants-table th,
+  .merchants-table td {
+    text-align: left;
+    padding: 8px;
+    border: none;
+  }
+  
+  .merchants-table tr {
+    border: none;
+  }
+  
+  .merchants-table th {
+    background-color: red;
+  }
+  
+  .add-merchant-container {
+    display: flex;
+    align-self: flex-end;
+  }
+  
+  /* .add-merchant-container button {
+  }
+   */
+  .action-button,
+  .add-merchant-container button {
+    margin-right: 5px;
+    background-color: #521c78;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+  
+  .border-button {
+    height: 40px;
+    border: 2px solid #521c78;
+    background-color: #fff;
+    border-radius: 4px;
+    transition: all 0.2s;
+    color: #521c78;
+    font-size: 14px;
+  }
+  
+  .border-button:hover {
+    background-color: #521c78;
+    color: #fff;
+  }
+  
+  .action-button:hover {
+    background-color: #200633;
+  }
+  
+  .td {
+    text-align: right;
+  }
+  

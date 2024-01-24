@@ -1,0 +1,32 @@
+.dateContainer{
+    display: flex;
+    position: relative;
+    max-height: 25px;
+    color: black;
+    width: 100%;
+    /* font-size: 11px; */
+    
+}
+
+.calendar{ 
+    border-radius: 5px;
+    padding: 4px 8px;
+    /* border: .5px solid grey; */
+    width: 100%;
+    height: 100%;
+    border: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+}
+.calendarIcon {
+    /* margin-left: auto; */
+    margin-right: 0;
+  }
+.dateRange{
+    position: absolute  ;
+    top: 50px;
+    right: 0px;
+    z-index: 50;
+}

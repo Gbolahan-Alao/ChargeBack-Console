@@ -24,6 +24,14 @@
 }
 .filterItems .filterTitle{
 margin-right: 30px;
+min-width: 100px;
+}
+
+.filterInputBox{
+    width: 200px;
+    height: 25px;
+    border: 2px solid #f2f2f2;
+    border-radius: 4px;
 }
 .filterInput{
     width: 100%;
@@ -31,11 +39,9 @@ margin-right: 30px;
     border: none;
     background-color: transparent;
 }
-.filterInputBox{
-    width: 200px;
-    height: 25px;
-    border: 1px solid black;
-    border-radius: 4px;
+.filterInput:focus{
+    border: 1px solid purple;
+    outline: none;
 }
 .buttonContainer{
     display: flex;
@@ -47,6 +53,13 @@ margin-right: 30px;
     margin: 3px;
     padding: 4px 16px;
     border-radius: 4px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    transition: all .1s;
+
+}
+.button:hover{
+    transform: scale(1.01);
+    cursor: pointer;
 }
 .searchButton{
     background-color: purple;
@@ -56,4 +69,12 @@ margin-right: 30px;
 
 .clearButton{
     border: 1px solid purple;
+}
+
+.select{
+    height: 100%;
+    width: 100%;
+    border: none;
+    outline: none;
+    
 }
