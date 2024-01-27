@@ -10,9 +10,8 @@ const _nav = [
   {
     component: CNavItem,
     name: 'Dashboard',
-    to: '/dashboard',
     icon: <CIcon icon={cilSpeedometer} customClassName="nav-icon" />,
-   
+    href:'/#/dashboard',
   },
   // {
   //   component: CNavTitle,
@@ -21,7 +20,7 @@ const _nav = [
   {
     component: CNavItem,
     name: 'Merchants',
-    to: '/merchants',
+    href: '/#/merchants',
     icon: <CIcon icon={cilDrop} customClassName="nav-icon" />,
   },
   // {
@@ -41,7 +40,7 @@ const _nav = [
   {
     component: CNavItem,
     name: 'Issuer Disputes',
-    to: '/issuer-disputes',
+    href: '/#/issuer-disputes',
     icon: <CIcon icon={cilCursor} customClassName="nav-icon" />,
   //   items: [
   //     {
