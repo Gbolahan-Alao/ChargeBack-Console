@@ -1,6 +1,7 @@
 
 import { useState } from 'react';
 import { IoIosCloudDownload } from 'react-icons/io';
+import FileUpload from 'src/components/FileUpload/FileUpload';
 import { dummyData } from 'src/data/dummyTransactionsData';
 import WidgetsDropdown from 'src/views/widgets/WidgetsDropdown';
 import './TransactionsTable.css';
@@ -42,6 +43,7 @@ const Transactions = () => {
   return (
     <div className="contain">
       <WidgetsDropdown className="mb-4" all={400} approved={350} pending={35} rejected={15} />
+      <FileUpload/>
       <TableFilter />
       <div className="paginationContainer">
       <div className="pagination">
@@ -106,11 +108,11 @@ const Transactions = () => {
                   disabled={!row.fileAvailable}
                   style={{
                     backgroundColor: row.fileAvailable ? '#F2F2F2' : 'white',
-                    color: 'white',
+                    color: 'black',
                     cursor: row.fileAvailable ? 'pointer' : 'not-allowed',
                     borderRadius:'5px',
                     border:row.fileAvailable ? 'none': "2px solid #f2f2f2",
-                    color:row.fileAvailable ? 'black': "#D3D3D3",
+                   
                     padding:'4px 16px',
                   }}
                 >

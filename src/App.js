@@ -1,10 +1,11 @@
 import React, { Suspense, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { HashRouter, Route, Routes } from 'react-router-dom'
+import { UploadedFilesProvider } from './components/Context/UploadedFilesContext'
 
 import { CSpinner, useColorModes } from '@coreui/react'
 import './scss/style.scss'
-
+ 
 // Containers
 const DefaultLayout = React.lazy(() => import('./layout/DefaultLayout'))
 
@@ -33,6 +34,7 @@ const App = () => {
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
+    <UploadedFilesProvider>
     <HashRouter>
       <Suspense
         fallback={
@@ -52,6 +54,7 @@ const App = () => {
         </Routes>
       </Suspense>
     </HashRouter>
+    </UploadedFilesProvider>
   )
 }
 

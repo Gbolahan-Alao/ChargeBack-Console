@@ -11,7 +11,6 @@ import {
 } from '@coreui/react'
 import { useEffect, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { NavLink } from 'react-router-dom'
 
 import { AppHeaderDropdown } from './header/index'
 import { AppBreadcrumb } from './index'
@@ -41,9 +40,7 @@ const AppHeader = () => {
         </CHeaderToggler>
         <CHeaderNav className="d-none d-md-flex">
           <CNavItem>
-            <CNavLink to="/dashboard" component={NavLink}>
-              Dashboard
-            </CNavLink>
+            <CNavLink href="/#/dashboard">Dashboard</CNavLink>
           </CNavItem>
           <CNavItem>
             <CNavLink href="#">Users</CNavLink>
