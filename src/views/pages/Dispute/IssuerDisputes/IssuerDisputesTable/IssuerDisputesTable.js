@@ -1,5 +1,4 @@
-import { useState } from 'react';
-import { IoEye } from 'react-icons/io5';
+import { useEffect, useState } from 'react';
 import { useUploadedFiles } from 'src/components/Context/UploadedFilesContext';
 
 const IssuerDisputesTable = ({ statusFilter }) => {
@@ -7,10 +6,20 @@ const IssuerDisputesTable = ({ statusFilter }) => {
   const itemsPerPageOptions = [10, 20, 50, 100];
   const [currentPage, setCurrentPage] = useState(0);
   const [itemsPerPage, setItemsPerPage] = useState(itemsPerPageOptions[0]);
+  const [loading, setLoading] = useState(true); 
+  const [filteredData, setFilteredData] = useState([]);
 
-  const filteredData = statusFilter
-    ? uploadedFiles.filter((row) => row.status.toLowerCase() === statusFilter.toLowerCase())
-    : uploadedFiles;
+  useEffect(() => {
+    if (uploadedFiles.length > 0) {
+      setFilteredData(uploadedFiles);
+      setLoading(false); 
+    }
+  }, [uploadedFiles]);
+
+  // Render loading indicator if files are still loading
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   const pageCount = Math.ceil(filteredData.length / itemsPerPage);
   const startIndex = currentPage * itemsPerPage;
@@ -29,65 +38,27 @@ const IssuerDisputesTable = ({ statusFilter }) => {
   return (
     <div className='contain'>
       <div className="paginationContainer">
-        <div className="pagination">
-          <button onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 0}>
-            Previous
-          </button>
-          <span>{`Page ${currentPage + 1} of ${pageCount}`}</span>
-          <button
-            onClick={() => handlePageChange(currentPage + 1)}
-            disabled={currentPage === pageCount - 1}
-          >
-            Next
-          </button>
-        </div>
-        <div className="itemsPerPage">
-          <label>Items per page:</label>
-          <select onChange={handleItemsPerPageChange} value={itemsPerPage}>
-            {itemsPerPageOptions.map((option) => (
-              <option key={option} value={option}>
-                {option}
-              </option>
-            ))}
-          </select>
-        </div>
+        {/* Pagination controls */}
       </div>
       <div className="contain">
         <table className="table table-borderless border-0">
           <thead style={{ backgroundColor: '#f2f2f2' }}>
-            <tr>
-              <th style={{ textAlign: 'left' }}>Id</th>
-              <th style={{ textAlign: 'left' }}>Masked PAN</th>
-              <th style={{ textAlign: 'left' }}>RRN</th>
-              <th style={{ textAlign: 'left' }}>Amount</th>
-              <th style={{ textAlign: 'left' }}>Terminal ID</th>
-              <th style={{ textAlign: 'left' }}>Transaction Date</th>
-              <th style={{ textAlign: 'left' }}>Actions</th>
-            </tr>
+            {/* Table headers */}
           </thead>
           <tbody>
             {currentPageData.map((row) => (
               <tr key={row.id}>
-                <td style={{ textAlign: 'center' }}>{row.id}</td>
-                <td style={{ textAlign: 'left' }}>{row.maskedPan}</td>
-                <td style={{ textAlign: 'left' }}>{row.rrn}</td>
-                <td style={{ textAlign: 'left' }}>{row.amount}</td>
-                <td style={{ textAlign: 'left' }}>{row.terminalId}</td>
-                <td style={{ textAlign: 'left' }}>{new Date(row.transactionDate).toLocaleString()}</td>
-                <td style={{ textAlign: 'center' }}>
-                  <IoEye />
-                </td>
+                {/* Table rows */}
               </tr>
             ))}
           </tbody>
         </table>
       </div>
     </div>
-  )
-}
+  );
+};
 
 export default IssuerDisputesTable;
-
 
 
 

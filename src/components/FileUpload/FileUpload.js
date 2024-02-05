@@ -5,7 +5,7 @@ import { UploadedFilesContext } from '../Context/UploadedFilesContext';
 import styles from './FileUpload.module.css';
 
 const FileUpload = () => {
-  const { setUploadedFiles } = useContext(UploadedFilesContext);
+  const { uploadedFiles, setUploadedFiles } = useContext(UploadedFilesContext);
   const fileInput = useRef();
   const [uploadStatus, setUploadStatus] = useState(null);
 
@@ -13,12 +13,12 @@ const FileUpload = () => {
     fileInput.current.click();
   };
 
-  const handleChange = (event) => {
+  const handleChange = async (event) => {
     try {
       console.log("File upload process started...");
       const file = event.target.files[0];
       const formData = new FormData();
-      formData.append('files', file);
+      formData.append('file', file);
       formData.append('fileName', file.name);
       const config = {
         headers: {
@@ -27,16 +27,10 @@ const FileUpload = () => {
         },
       };
 
-      axios.post('https://localhost:7027/File/upload', formData, config)
-        .then(() => {
-          console.log("File upload process completed.");
-          setUploadStatus("success");
-          fetchFileData(); // Call the function to fetch file data after upload
-        })
-        .catch((error) => {
-          console.error("Error uploading file: ", error);
-          setUploadStatus("error");
-        });
+      await axios.post('https://localhost:7027/File/upload', formData, config);
+      console.log("File upload process completed.");
+      setUploadStatus("success");
+      fetchFileData();
     } catch (error) {
       console.error("Error handling file: ", error);
       setUploadStatus("error");
@@ -45,12 +39,12 @@ const FileUpload = () => {
 
   useEffect(() => {
     fetchFileData();
-  }, []); // Fetch file data on component mount
+  }, []); 
 
   const fetchFileData = () => {
     axios.get('https://localhost:7027/File/files')
       .then((response) => {
-        setUploadedFiles(response.data); // Update the context value with the fetched files
+        setUploadedFiles(response.data);
         console.log("Files obtained from context:", response.data);
       })
       .catch((error) => {
@@ -79,7 +73,6 @@ const FileUpload = () => {
 }
 
 export default FileUpload;
-
 
 
 
