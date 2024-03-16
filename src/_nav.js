@@ -13,6 +13,7 @@ const _nav = [
   {
     component: CNavItem,
     name: 'Merchants',
+    to:"merchants",
     href: '/#/merchants',
     icon: <CIcon icon={cilDrop} customClassName="nav-icon" />,
   },
