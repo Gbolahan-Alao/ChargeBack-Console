@@ -1,25 +1,26 @@
-import axios from 'axios'
-import { jwtDecode } from 'jwt-decode'
-import { useEffect, useState } from 'react'
-import { IoIosCloudDownload } from 'react-icons/io'
-import { useParams } from 'react-router-dom'
-import { useMerchant } from 'src/components/Context/MerchantContext'
-import FileUpload from 'src/components/FileUpload/FileUpload'
-import WidgetsDropdown from 'src/views/widgets/WidgetsDropdown'
-import './TransactionsTable.css'
-import TableFilter from './TransactionsTableFilter/TransactionsTableFilter'
+import axios from 'axios';
+import { jwtDecode } from 'jwt-decode';
+import { useEffect, useState } from 'react';
+import { IoIosCloudDownload } from 'react-icons/io';
+import { useParams } from 'react-router-dom';
+import { useUserRole } from 'src/components/Context/useRoleContext';
+import FileUpload from 'src/components/FileUpload/FileUpload';
+import WidgetsDropdown from 'src/views/widgets/WidgetsDropdown';
+import './TransactionsTable.css';
+import TableFilter from './TransactionsTableFilter/TransactionsTableFilter';
+
 const Transactions = () => {
   const { merchantId } = useParams();
-  const { selectMerchant } = useMerchant();
-  const itemsPerPageOptions = [100, 200, 500, 1000]
-  const [currentPage, setCurrentPage] = useState(0)
-  const [itemsPerPage, setItemsPerPage] = useState(itemsPerPageOptions[0])
-  const [fileData, setFileData] = useState([])
-  const [isLoading, setIsLoading] = useState(true)
+  const { isAdmin } = useUserRole();
+  const itemsPerPageOptions = [100, 200, 500, 1000];
+  const [currentPage, setCurrentPage] = useState(0);
+  const [itemsPerPage, setItemsPerPage] = useState(itemsPerPageOptions[0]);
+  const [fileData, setFileData] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    fetchData()
-  }, [])
+    fetchData();
+  }, []);
 
   const fetchData = async () => {
     try {
@@ -45,7 +46,6 @@ const Transactions = () => {
     }
   }
   
-
   const pageCount = Math.ceil(fileData.length / itemsPerPage)
   const startIndex = currentPage * itemsPerPage
   const endIndex = startIndex + itemsPerPage
@@ -63,7 +63,7 @@ const Transactions = () => {
   const handleDownload = async (fileName) => {
     try {
       const response = await axios.post(
-        `https://localhost:7059/File/download/${fileName}`,
+        `https://localhost:7059/api/download/${fileName}`,
         {},
         { responseType: 'blob' },
       )
@@ -81,7 +81,7 @@ const Transactions = () => {
   return (
     <div className="contain">
       <WidgetsDropdown className="mb-4" all={400} approved={350} pending={35} rejected={15} />
-      <FileUpload />
+      {isAdmin() && <FileUpload />}
       <TableFilter />
       <div className="paginationContainer">
         <div className="pagination">
@@ -160,4 +160,4 @@ const Transactions = () => {
   )
 }
 
-export default Transactions
+export default Transactions;
