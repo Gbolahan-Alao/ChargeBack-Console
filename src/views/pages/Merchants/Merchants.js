@@ -16,6 +16,7 @@ const MerchantsTable = () => {
   const [alertMessage, setAlertMessage] = useState('');
   const navigate = useNavigate();
 
+
   useEffect(() => {
     fetchMerchants();
  }, []);
@@ -37,6 +38,14 @@ const MerchantsTable = () => {
     selectMerchant(merchantId);
     if (action === 'transactions') {
       navigate(`/merchants/${merchantId}/transactions`);
+    }
+
+    if (action === 'add-user') {
+      navigate(`/merchants/${merchantId}/add-user`);
+    }
+
+    if (action === 'settings') {
+      navigate(`/merchants/${merchantId}/settings`);
     }
   };
    
@@ -107,7 +116,7 @@ const MerchantsTable = () => {
               <td className="td">
                 <button
                   className="action-button"
-                  onClick={() => optionsClickHandler(row.name, 'add-user')}
+                  onClick={() => optionsClickHandler(row.id, 'add-user')}
                 >
                   Add user
                 </button>
@@ -115,7 +124,7 @@ const MerchantsTable = () => {
               <td className="td">
                 <button
                   className="border-button"
-                  onClick={() => optionsClickHandler(row.name, 'settings')}
+                  onClick={() => optionsClickHandler(row.id, 'settings')}
                 >
                   Settings
                 </button>

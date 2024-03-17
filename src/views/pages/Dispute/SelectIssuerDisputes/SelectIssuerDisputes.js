@@ -7,7 +7,7 @@ import '../../Merchants/Merchants.css';
 
 const MerchantsTable = () => {
     const { selectMerchant } = useMerchant();
-    const { isAdmin, merchantId: adminMerchantId } = useUserRole(); // Assuming merchantId is available for non-admin users
+    const { isAdmin, merchantId: adminMerchantId } = useUserRole();
     const [merchants, setMerchants] = useState([]);
     const [alertMessage, setAlertMessage] = useState('');
     const navigate = useNavigate();

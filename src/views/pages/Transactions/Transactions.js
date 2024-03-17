@@ -17,6 +17,20 @@ const Transactions = () => {
   const [itemsPerPage, setItemsPerPage] = useState(itemsPerPageOptions[0]);
   const [fileData, setFileData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [dashboardData, setDashboardData] = useState(null);
+
+  useEffect(() => {
+    fetchDashboardData();
+  }, []);
+
+  const fetchDashboardData = async () => {
+    try {
+      const response = await axios.get(`https://localhost:7059/api/merchant-dashboard-data?merchantId=${merchantId}`);
+      setDashboardData(response.data);
+    } catch (error) {
+      console.error('Error fetching dashboard data: ', error);
+    }
+  };
 
   useEffect(() => {
     fetchData();
@@ -80,7 +94,15 @@ const Transactions = () => {
 
   return (
     <div className="contain">
-      <WidgetsDropdown className="mb-4" all={400} approved={350} pending={35} rejected={15} />
+    {dashboardData && (
+      <WidgetsDropdown
+        className="mb-4"
+        all={dashboardData.totalCount}
+        approved={dashboardData.acceptedCount}
+        pending={dashboardData.pendingCount}
+        rejected={dashboardData.rejectedCount}
+      />
+    )}
       {isAdmin() && <FileUpload />}
       <TableFilter />
       <div className="paginationContainer">
@@ -161,3 +183,6 @@ const Transactions = () => {
 }
 
 export default Transactions;
+
+
+

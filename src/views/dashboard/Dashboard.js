@@ -15,21 +15,35 @@ import {
 import axios from 'axios';
 import classNames from 'classnames';
 import { useEffect, useState } from 'react';
-
-
+import { useUserRole } from 'src/components/Context/useRoleContext';
 import WidgetsDropdown from '../widgets/WidgetsDropdown';
 import MainChart from './MainChart';
 
 const Dashboard = () => {
   const [dashboardData, setDashboardData] = useState(null);
+ // const { merchantId } = useParams();
+  const { isAdmin, merchantId } = useUserRole();
 
   useEffect(() => {
-    fetchData();
+    if (isAdmin()) {
+      fetchData('https://localhost:7059/api/dashboard-data');
+    } else {
+      fetchDashboardData();
+    }
   }, []);
 
-  const fetchData = async () => {
+  const fetchData = async (url) => {
     try {
-      const response = await axios.get('https://localhost:7059/api/dashboard-data');
+      const response = await axios.get(url);
+      setDashboardData(response.data);
+    } catch (error) {
+      console.error('Error fetching dashboard data: ', error);
+    }
+  };
+
+  const fetchDashboardData = async () => {
+    try {
+      const response = await axios.get(`https://localhost:7059/api/merchant-dashboard-data?merchantId=${merchantId}`);
       setDashboardData(response.data);
     } catch (error) {
       console.error('Error fetching dashboard data: ', error);
@@ -113,7 +127,4 @@ const Dashboard = () => {
   )
 }
 
-export default Dashboard
-
-
-
+export default Dashboard;
