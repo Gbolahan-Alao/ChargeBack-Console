@@ -62,8 +62,8 @@ const AddUserPage = () => {
             }
 
             const payload = {
-                id: 'string', // Placeholder or user-provided value
-                name: 'string', // Placeholder or user-provided value
+                id: 'string', 
+                name: 'string', 
                 email: email,
                 password: password,
                 confirmPassword: confirmPassword,
@@ -84,9 +84,9 @@ const AddUserPage = () => {
             }
 
             const data = await response.json();
-            setAlertMessage(data.message); // Set success message
+            setAlertMessage(data.message); 
             setTimeout(() => {
-                navigate('/merchants'); // Navigate to the merchants page after 3 seconds
+                navigate('/merchants'); 
             }, 3000);
 
         } catch (error) {
@@ -98,7 +98,7 @@ const AddUserPage = () => {
     };
 
     return (
-        <div className="bg-body-tertiary min-vh-100 d-flex flex-row align-items-center">
+        <div className="bg-body-tertiary d-flex align-items-center justify-content-center min-vh-100"style={{ marginTop: '-5rem' }}>
             <CContainer>
                 <CRow className="justify-content-center">
                     <CCol md={8}>

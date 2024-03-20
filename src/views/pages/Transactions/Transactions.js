@@ -94,7 +94,7 @@ const Transactions = () => {
 
   return (
     <div className="contain">
-    {dashboardData && (
+    {isAdmin() && dashboardData && (
       <WidgetsDropdown
         className="mb-4"
         all={dashboardData.totalCount}

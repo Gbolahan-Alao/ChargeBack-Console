@@ -13,9 +13,10 @@ const IssuerDisputesTable = ({ statusFilter }) => {
     const [loading, setLoading] = useState(true);
     const [fileData, setFileData] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
-    const [selectedActions, setSelectedActions] = useState({}); // State to store selected actions for each row
+    const [selectedActions, setSelectedActions] = useState({}); 
 
     const options = [
+        { value: 'None', label: 'None' },
         { value: 'N/A', label: 'N/A' },
         { value: 'Accept', label: 'Accept' },
         { value: 'Reject', label: 'Reject' },
@@ -23,7 +24,6 @@ const IssuerDisputesTable = ({ statusFilter }) => {
 
     useEffect(() => {
         fetchData();
-        // Retrieve selected actions from localStorage
         const storedSelectedActions = localStorage.getItem('selectedActions');
         if (storedSelectedActions) {
             setSelectedActions(JSON.parse(storedSelectedActions));
@@ -36,7 +36,6 @@ const IssuerDisputesTable = ({ statusFilter }) => {
             const response = await axios.get(`https://localhost:7059/api/files?merchantId=${merchantId}`);
             setFileData(response.data);
             if (isAdmin()) {
-                // If user is admin, fetch user actions data
                 await fetchUserActions(response.data);
             }
         } catch (error) {
@@ -69,19 +68,49 @@ const IssuerDisputesTable = ({ statusFilter }) => {
     };
 
     const handleActionSelect = async (stan, rrn, action) => {
-        // Store selected action in localStorage
+        const token = localStorage.getItem('token'); 
+    
+        if (action === 'Reject') {
+            const fileInput = document.createElement('input'); 
+            fileInput.type = 'file'; 
+            fileInput.accept = '.pdf,.jpg,.png'; 
+            fileInput.onchange = async (event) => {
+                const file = event.target.files[0];
+                if (file) {
+                    try {
+                        const formData = new FormData();
+                        formData.append('receipt', file);
+            
+                        const response = await axios.post(
+                            `https://localhost:7059/api/uploadReceipt?merchantId=${merchantId}&stan=${stan}&rrn=${rrn}`,
+                            formData,
+                            {
+                                headers: {
+                                    'Content-Type': 'multipart/form-data',
+                                    Authorization: `Bearer ${token}`,
+                                },
+                            },
+                        );
+                        console.log('Receipt uploaded successfully:', response.data);
+                    } catch (error) {
+                        console.error('Error uploading receipt:', error);
+                    }
+                }
+            };
+            fileInput.click();
+        }
+        
         localStorage.setItem('selectedActions', JSON.stringify({
             ...selectedActions,
             [`${stan}-${rrn}`]: action,
         }));
-
+    
         setSelectedActions(prevState => ({
             ...prevState,
-            [`${stan}-${rrn}`]: action, // Store selected action for the specific row
+            [`${stan}-${rrn}`]: action,
         }));
-
+    
         try {
-            const token = localStorage.getItem('token');
             const response = await axios.post(
                 `https://localhost:7059/api/updateUserActions?merchantId=${merchantId}&stan=${stan}&rrn=${rrn}&action=${action}`,
                 null,
@@ -92,13 +121,11 @@ const IssuerDisputesTable = ({ statusFilter }) => {
                 },
             );
             console.log('Response:', response);
-
-            // Handle response as needed
         } catch (error) {
             console.error('Error updating user actions:', error);
-            // Handle error as needed
         }
     };
+    
 
     if (isLoading) {
         return <div>Loading...</div>;
@@ -124,7 +151,6 @@ const IssuerDisputesTable = ({ statusFilter }) => {
 
     return (
         <div className="contain">
-            {/* Pagination and items per page controls */}
             <div className="paginationContainer">
                 <div className="pagination">
                     <button onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 0}>
@@ -175,11 +201,11 @@ const IssuerDisputesTable = ({ statusFilter }) => {
                                     {new Date(row.transactionDate).toLocaleString()}
                                 </td>
                                 <td style={{ textAlign: 'left' }}>{row.accountToBeCredited}</td>
-                                <td style={{ textAlign: 'left' }}>
+                                <td style={{ textAlign: 'left',}}>
                                     {isAdmin() ? (
                                         selectedActions[`${row.stan}-${row.rrn}`] || "N/A"
                                     ) : (
-                                        <select value={selectedActions[`${row.stan}-${row.rrn}`] || ''} onChange={(e) => handleActionSelect(row.stan, row.rrn, e.target.value)}>
+                                        <select style={{ backgroundColor:"#f2f2f2", borderRadius:"4px" }} value={selectedActions[`${row.stan}-${row.rrn}`] || ''} onChange={(e) => handleActionSelect(row.stan, row.rrn, e.target.value)}>
                                             {options.map((option) => (
                                                 <option key={option.value} value={option.value}>
                                                     {option.label}
