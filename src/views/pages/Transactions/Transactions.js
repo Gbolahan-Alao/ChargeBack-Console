@@ -1,65 +1,67 @@
-import axios from 'axios';
-import { jwtDecode } from 'jwt-decode';
-import { useEffect, useState } from 'react';
-import { IoIosCloudDownload } from 'react-icons/io';
-import { useParams } from 'react-router-dom';
-import { useUserRole } from 'src/components/Context/useRoleContext';
-import FileUpload from 'src/components/FileUpload/FileUpload';
-import WidgetsDropdown from 'src/views/widgets/WidgetsDropdown';
-import './TransactionsTable.css';
-import TableFilter from './TransactionsTableFilter/TransactionsTableFilter';
+import axios from 'axios'
+import { jwtDecode } from 'jwt-decode'
+import { useEffect, useState } from 'react'
+import { IoIosCloudDownload } from 'react-icons/io'
+import { useParams } from 'react-router-dom'
+import { useUserRole } from 'src/components/Context/useRoleContext'
+import FileUpload from 'src/components/FileUpload/FileUpload'
+import WidgetsDropdown from 'src/views/widgets/WidgetsDropdown'
+import './TransactionsTable.css'
+import TableFilter from './TransactionsTableFilter/TransactionsTableFilter'
 
 const Transactions = () => {
-  const { merchantId } = useParams();
-  const { isAdmin } = useUserRole();
-  const itemsPerPageOptions = [100, 200, 500, 1000];
-  const [currentPage, setCurrentPage] = useState(0);
-  const [itemsPerPage, setItemsPerPage] = useState(itemsPerPageOptions[0]);
-  const [fileData, setFileData] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [dashboardData, setDashboardData] = useState(null);
+  const { merchantId } = useParams()
+  const { isAdmin } = useUserRole()
+  const itemsPerPageOptions = [100, 200, 500, 1000]
+  const [currentPage, setCurrentPage] = useState(0)
+  const [itemsPerPage, setItemsPerPage] = useState(itemsPerPageOptions[0])
+  const [fileData, setFileData] = useState([])
+  const [isLoading, setIsLoading] = useState(true)
+  const [dashboardData, setDashboardData] = useState(null)
 
   useEffect(() => {
-    fetchDashboardData();
-  }, []);
+    fetchDashboardData()
+  }, [])
 
   const fetchDashboardData = async () => {
     try {
-      const response = await axios.get(`https://localhost:7059/api/merchant-dashboard-data?merchantId=${merchantId}`);
-      setDashboardData(response.data);
+      const response = await axios.get(
+        `https://localhost:7059/api/merchant-dashboard-data?merchantId=${merchantId}`,
+      )
+      setDashboardData(response.data)
     } catch (error) {
-      console.error('Error fetching dashboard data: ', error);
+      console.error('Error fetching dashboard data: ', error)
     }
-  };
+  }
 
   useEffect(() => {
-    fetchData();
-  }, []);
+    fetchData()
+  }, [])
 
   const fetchData = async () => {
     try {
-      setIsLoading(true);
-      const token = localStorage.getItem('token');
-      const decodedToken = jwtDecode(token);
-      const userRoles = decodedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'];
-      console.log(userRoles);
-  
-      const rolesArray = Array.isArray(userRoles) ? userRoles : [userRoles];
-      const lastRole = rolesArray[rolesArray.length - 1];
-  
+      setIsLoading(true)
+      const token = localStorage.getItem('token')
+      const decodedToken = jwtDecode(token)
+      const userRoles = decodedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/role']
+      console.log(userRoles)
+
+      const rolesArray = Array.isArray(userRoles) ? userRoles : [userRoles]
+      const lastRole = rolesArray[rolesArray.length - 1]
+
       const response = await axios.get('https://localhost:7059/api/files-info', {
         params: {
-          merchantId: merchantId
-        }
-      });
-      setFileData(response.data);
+          merchantId: merchantId,
+        },
+      })
+      setFileData(response.data)
     } catch (error) {
-      console.error('Error fetching file data: ', error);
+      console.error('Error fetching file data: ', error)
     } finally {
-      setIsLoading(false);
+      setIsLoading(false)
     }
   }
-  
+
   const pageCount = Math.ceil(fileData.length / itemsPerPage)
   const startIndex = currentPage * itemsPerPage
   const endIndex = startIndex + itemsPerPage
@@ -94,15 +96,15 @@ const Transactions = () => {
 
   return (
     <div className="contain">
-    {isAdmin() && dashboardData && (
-      <WidgetsDropdown
-        className="mb-4"
-        all={dashboardData.totalCount}
-        approved={dashboardData.acceptedCount}
-        pending={dashboardData.pendingCount}
-        rejected={dashboardData.rejectedCount}
-      />
-    )}
+      {isAdmin() && dashboardData && (
+        <WidgetsDropdown
+          className="mb-4"
+          all={dashboardData.totalCount}
+          approved={dashboardData.acceptedCount}
+          pending={dashboardData.pendingCount}
+          rejected={dashboardData.rejectedCount}
+        />
+      )}
       {isAdmin() && <FileUpload />}
       <TableFilter />
       <div className="paginationContainer">
@@ -130,7 +132,11 @@ const Transactions = () => {
         </div>
       </div>
       {isLoading ? (
-        <div className="spinner-border" role="status"></div>
+        <div className="spinner-border" role="status"></div> // Render spinner while loading
+      ) : fileData.length === 0 ? (
+        <div className="no-files-container">
+          <div className="no-files-message">No data found</div>
+        </div>
       ) : (
         <table className="table table-borderless border-0">
           <thead style={{ backgroundColor: '#f2f2f2' }}>
@@ -182,7 +188,4 @@ const Transactions = () => {
   )
 }
 
-export default Transactions;
-
-
-
+export default Transactions

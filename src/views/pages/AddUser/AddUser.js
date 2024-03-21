@@ -1,5 +1,3 @@
-import { cibAboutMe, cibEyeem, cilLockLocked, cilUser } from '@coreui/icons';
-import CIcon from '@coreui/icons-react';
 import {
     CButton,
     CCard,
@@ -13,7 +11,7 @@ import {
     CInputGroupText,
     CRow,
 } from '@coreui/react';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useUserRole } from 'src/components/Context/useRoleContext';
 
@@ -34,41 +32,55 @@ const AddUserPage = () => {
         setShowPassword((prevShowPassword) => !prevShowPassword);
     };
 
-    useEffect(() => {
-        const errorTimeout = setTimeout(() => {
-            setError('');
-        }, 3000);
+    const validateForm = () => {
+        const errors = {};
 
-        return () => clearTimeout(errorTimeout);
-    }, [error]);
+        // Email validation
+        if (!email) {
+            errors.email = 'Email is required';
+        } else if (!/\S+@\S+\.\S+/.test(email)) {
+            errors.email = 'Invalid email address';
+        }
 
-    const clearAlertMessage = () => {
-        setAlertMessage('');
+        // Password validation
+        if (!password) {
+            errors.password = 'Password is required';
+        } else if (password.length < 6) {
+            errors.password = 'Password must be at least 6 characters';
+        } else if (!/\d/.test(password)) {
+            errors.password = 'Password must contain at least one digit';
+        } else if (!/[A-Z]/.test(password)) {
+            errors.password = 'Password must contain at least one uppercase letter';
+        } else if (!/\W/.test(password)) {
+            errors.password = 'Password must contain at least one non-alphanumeric character';
+        }
+
+        // Confirm password validation
+        if (!confirmPassword) {
+            errors.confirmPassword = 'Please confirm your password';
+        } else if (password !== confirmPassword) {
+            errors.confirmPassword = 'Passwords do not match';
+        }
+
+        return errors;
     };
-
-    useEffect(() => {
-        const alertTimeout = setTimeout(() => {
-            clearAlertMessage();
-        }, 3000);
-
-        return () => clearTimeout(alertTimeout);
-    }, [alertMessage]);
 
     const AddUserHandler = async () => {
         setLoading(true);
         try {
-            if (password !== confirmPassword) {
-                throw new Error('Passwords do not match');
+            const errors = validateForm();
+            if (Object.keys(errors).length > 0) {
+                throw new Error(Object.values(errors).join('\n'));
             }
-
+    
             const payload = {
-                id: 'string', 
-                name: 'string', 
+                id: 'string',
+                name: 'string',
                 email: email,
                 password: password,
                 confirmPassword: confirmPassword,
             };
-
+    
             const response = await fetch(`https://localhost:7044/api/Account/register?merchant=${urlMerchantId}`, {
                 method: 'POST',
                 headers: {
@@ -76,19 +88,19 @@ const AddUserPage = () => {
                 },
                 body: JSON.stringify(payload),
             });
-
+    
             if (!response.ok) {
                 const errorData = await response.json();
                 const errorMessage = errorData.title || 'Registration failed';
                 throw new Error(errorMessage);
             }
-
+    
             const data = await response.json();
             setAlertMessage(data.message); 
             setTimeout(() => {
                 navigate('/merchants'); 
-            }, 3000);
-
+            }, 1500);
+    
         } catch (error) {
             setError(error.message);
             console.error(error);
@@ -96,9 +108,10 @@ const AddUserPage = () => {
             setLoading(false);
         }
     };
+    
 
     return (
-        <div className="bg-body-tertiary d-flex align-items-center justify-content-center min-vh-100"style={{ marginTop: '-5rem' }}>
+        <div className="bg-body-tertiary d-flex align-items-center justify-content-center min-vh-100" style={{ marginTop: '-5rem' }}>
             <CContainer>
                 <CRow className="justify-content-center">
                     <CCol md={8}>
@@ -123,7 +136,7 @@ const AddUserPage = () => {
                                         <p className="text-body-secondary">Create new user for merchant</p>
                                         <CInputGroup className="mb-3">
                                             <CInputGroupText>
-                                                <CIcon icon={cilUser} />
+                                                Email
                                             </CInputGroupText>
                                             <CFormInput
                                                 placeholder="Email"
@@ -132,9 +145,11 @@ const AddUserPage = () => {
                                                 onChange={(e) => setEmail(e.target.value)}
                                             />
                                         </CInputGroup>
+                                        {error && <p className="text-danger mt-2">{error}</p>}
+                                        {alertMessage && <p className="text-success mt-2">{alertMessage}</p>}
                                         <CInputGroup className="mb-4">
                                             <CInputGroupText>
-                                                <CIcon icon={cilLockLocked} />
+                                                Password
                                             </CInputGroupText>
                                             <CFormInput
                                                 type={showPassword ? 'text' : 'password'}
@@ -147,42 +162,30 @@ const AddUserPage = () => {
                                                 onClick={togglePasswordVisibility}
                                                 style={{ cursor: 'pointer' }}
                                             >
-                                                <CIcon icon={showPassword ? cibAboutMe : cibEyeem} />
+                                                {showPassword ? 'Hide' : 'Show'}
                                             </CInputGroupText>
                                         </CInputGroup>
                                         <CInputGroup className="mb-4">
                                             <CInputGroupText>
-                                                <CIcon icon={cilLockLocked} />
+                                                Confirm Password
                                             </CInputGroupText>
                                             <CFormInput
                                                 type={showPassword ? 'text' : 'password'}
-                                                placeholder=" Confirm Password"
+                                                placeholder="Confirm Password"
                                                 autoComplete="new-password"
                                                 value={confirmPassword}
                                                 onChange={(e) => setConfirmPassword(e.target.value)}
                                             />
-                                            <CInputGroupText
-                                                onClick={togglePasswordVisibility}
-                                                style={{ cursor: 'pointer' }}
-                                            >
-                                                <CIcon icon={showPassword ? cibAboutMe : cibEyeem} />
-                                            </CInputGroupText>
                                         </CInputGroup>
 
-                                        <CRow>
-                                            <CCol xs={6}>
-                                                <CButton
-                                                    className="px-4"
-                                                    style={{ backgroundColor: '#521c78', color: 'white' }}
-                                                    onClick={AddUserHandler}
-                                                    disabled={loading}
-                                                >
-                                                    {loading ? 'Loading...' : 'Add User'}
-                                                </CButton>
-                                            </CCol>
-                                        </CRow>
-                                        {error && <p className="text-danger mt-2">{error}</p>}
-                                        {alertMessage && <p className="text-success mt-2">{alertMessage}</p>}
+                                        <CButton
+                                            className="px-4"
+                                            style={{ backgroundColor: '#521c78', color: 'white' }}
+                                            onClick={AddUserHandler}
+                                            disabled={loading}
+                                        >
+                                            {loading ? 'Loading...' : 'Add User'}
+                                        </CButton>
                                     </CForm>
                                 </CCardBody>
                             </CCard>
