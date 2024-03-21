@@ -29,7 +29,6 @@ const FileUpload = () => {
       console.log("File upload process completed.");
       setUploadStatus("success");
       fetchFileData();
-      // Clear the upload status after 30 seconds
       setTimeout(() => {
         setUploadStatus(null);
       }, 2000);

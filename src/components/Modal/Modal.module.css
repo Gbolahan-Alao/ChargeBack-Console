@@ -1,76 +1,78 @@
-
 .modal {
-    display: none; /* Hidden by default */
-    position: fixed; /* Stay in place */
-    z-index: 1; /* Sit on top */
+    position: fixed; 
+    z-index: 1; 
     left: 0;
     top: 0;
-    width: 100%; /* Full width */
-    height: 100%; /* Full height */
-    overflow: auto; /* Enable scroll if needed */
-    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-    backdrop-filter: blur(2px); /* Add a blur effect */
-   }
-   
-   /* Modal Content/Box */
-   .modal-content {
+    width: 100%; 
+    height: 100%; 
+    overflow: auto; 
+    background-color: rgba(0,0,0,0.4); 
+    backdrop-filter: blur(2px); 
+    display: none; /* Initially hide the modal */
+}
+
+/* Additional styling for when the modal is open */
+.modal.open {
+    display: block; /* Show the modal when the open class is applied */
+}
+
+/* Modal Content/Box styling remains the same */
+.modalContent {
     background-color: #fefefe;
-    margin: 15% auto; /* 15% from the top and centered */
+    margin: 15% auto; 
     padding: 20px;
     border: 1px solid #888;
-    width: 80%; /* Could be more or less, depending on screen size */
-    max-width: 500px; /* Maximum width */
-    border-radius: 10px; /* Rounded corners */
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1), 0 1px 3px rgba(0,0,0,0.08); /* Box shadow for depth */
-    transition: transform 0.3s ease-out; /* Smooth transition for opening */
-   }
-   
-   /* The Close Button */
-   .close {
+    width: 80%; 
+    max-width: 500px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1), 0 1px 3px rgba(0,0,0,0.08); 
+    transition: transform 0.3s ease-out; 
+}
+
+/* Close button styling remains the same */
+.close {
     color: #aaa;
     float: right;
     font-size: 28px;
     font-weight: bold;
     cursor: pointer;
-   }
-   
-   .close:hover,
-   .close:focus {
+}
+
+.close:hover,
+.close:focus {
     color: black;
     text-decoration: none;
     cursor: pointer;
-   }
-   
-   /* Modal Open Animation */
-   .modal.open {
-    display: block;
+}
+
+/* Modal Open Animation remains the same */
+.modal.open {
     animation: slideIn 0.5s ease-out forwards;
-   }
-   
-   @keyframes slideIn {
+}
+
+@keyframes slideIn {
     from {
-       transform: translateY(-50%);
-       opacity: 0;
+        transform: translateY(-50%);
+        opacity: 0;
     }
     to {
-       transform: translateY(0);
-       opacity: 1;
+        transform: translateY(0);
+        opacity: 1;
     }
-   }
-   
-   /* Modal Close Animation */
-   .modal.close {
+}
+
+/* Modal Close Animation remains the same */
+.modal.close {
     animation: slideOut 0.5s ease-in forwards;
-   }
-   
-   @keyframes slideOut {
+}
+
+@keyframes slideOut {
     from {
-       transform: translateY(0);
-       opacity: 1;
+        transform: translateY(0);
+        opacity: 1;
     }
     to {
-       transform: translateY(-50%);
-       opacity: 0;
+        transform: translateY(-50%);
+        opacity: 0;
     }
-   }
-   
+}

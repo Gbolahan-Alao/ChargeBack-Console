@@ -1,8 +1,14 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import Alert from 'src/components/Alert/Alert';
 import { useUserRole } from 'src/components/Context/useRoleContext';
+import UploadReceiptModal from 'src/components/Modal/Modal';
+import ItemsPerPage from './ItemsPerPage';
+import Pagination from './Pagination';
+import TableHeader from './TableHeader';
+import TableRow from './TableRow';
+
+
 
 const IssuerDisputesTable = ({ statusFilter }) => {
     const { merchantId } = useParams();
@@ -13,7 +19,10 @@ const IssuerDisputesTable = ({ statusFilter }) => {
     const [loading, setLoading] = useState(true);
     const [fileData, setFileData] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
-    const [selectedActions, setSelectedActions] = useState({}); 
+    const [selectedActions, setSelectedActions] = useState({});
+    const [showUploadModal, setShowUploadModal] = useState(false);
+    const [modalStan, setModalStan] = useState('');
+    const [modalRrn, setModalRrn] = useState('');
 
     const options = [
         { value: 'None', label: 'None' },
@@ -68,48 +77,27 @@ const IssuerDisputesTable = ({ statusFilter }) => {
     };
 
     const handleActionSelect = async (stan, rrn, action) => {
-        const token = localStorage.getItem('token'); 
-    
+        const token = localStorage.getItem('token');
+        console.log("Action selected:", action);
+
         if (action === 'Reject') {
-            const fileInput = document.createElement('input'); 
-            fileInput.type = 'file'; 
-            fileInput.accept = '.pdf,.jpg,.png'; 
-            fileInput.onchange = async (event) => {
-                const file = event.target.files[0];
-                if (file) {
-                    try {
-                        const formData = new FormData();
-                        formData.append('receipt', file);
-            
-                        const response = await axios.post(
-                            `https://localhost:7059/api/uploadReceipt?merchantId=${merchantId}&stan=${stan}&rrn=${rrn}`,
-                            formData,
-                            {
-                                headers: {
-                                    'Content-Type': 'multipart/form-data',
-                                    Authorization: `Bearer ${token}`,
-                                },
-                            },
-                        );
-                        console.log('Receipt uploaded successfully:', response.data);
-                    } catch (error) {
-                        console.error('Error uploading receipt:', error);
-                    }
-                }
-            };
-            fileInput.click();
+            console.log('Reject action selected');
+            setModalStan(stan);
+            setModalRrn(rrn);
+            setShowUploadModal(true);
+            return;
         }
-        
+
         localStorage.setItem('selectedActions', JSON.stringify({
             ...selectedActions,
             [`${stan}-${rrn}`]: action,
         }));
-    
+
         setSelectedActions(prevState => ({
             ...prevState,
             [`${stan}-${rrn}`]: action,
         }));
-    
+
         try {
             const response = await axios.post(
                 `https://localhost:7059/api/updateUserActions?merchantId=${merchantId}&stan=${stan}&rrn=${rrn}&action=${action}`,
@@ -125,15 +113,45 @@ const IssuerDisputesTable = ({ statusFilter }) => {
             console.error('Error updating user actions:', error);
         }
     };
+
+    const handleOpenModal = () => {
+        setShowUploadModal(true);
+        console.log('Opening modal')
+    };
     
+    const handleModalClose = () => {
+        console.log("Closing modal");
+        setShowUploadModal(false);
+    };
 
-    if (isLoading) {
-        return <div>Loading...</div>;
-    }
-
-    if (fileData.length === 0) {
-        return <Alert type="success" message="Data is empty." />;
-    }
+    const handleUploadSuccess = async () => {
+        try {
+            const token = localStorage.getItem('token');
+        
+            setSelectedActions(prevState => ({
+                ...prevState,
+                [`${modalStan}-${modalRrn}`]: 'Reject',
+            }));
+    
+            const response = await axios.post(
+                `https://localhost:7059/api/updateUserActions?merchantId=${merchantId}&stan=${modalStan}&rrn=${modalRrn}&action=Reject`,
+                null,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+    
+            console.log('Response from backend:', response.data);
+        } catch (error) {
+            console.error('Error updating user actions:', error);
+        } finally {
+            setShowUploadModal(false);
+        }
+    };
+    
+    
 
     const pageCount = Math.ceil(fileData.length / itemsPerPage);
     const startIndex = currentPage * itemsPerPage;
@@ -152,76 +170,48 @@ const IssuerDisputesTable = ({ statusFilter }) => {
     return (
         <div className="contain">
             <div className="paginationContainer">
-                <div className="pagination">
-                    <button onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 0}>
-                        Previous
-                    </button>
-                    <span>{`Page ${currentPage + 1} of ${pageCount}`}</span>
-                    <button onClick={() => handlePageChange(currentPage + 1)} disabled={currentPage === pageCount - 1}>
-                        Next
-                    </button>
-                </div>
-                <div className="itemsPerPage">
-                    <label>Items per page:</label>
-                    <select onChange={handleItemsPerPageChange} value={itemsPerPage}>
-                        {itemsPerPageOptions.map((option) => (
-                            <option key={option} value={option}>
-                                {option}
-                            </option>
-                        ))}
-                    </select>
-                </div>
+                <Pagination
+                    currentPage={currentPage}
+                    pageCount={pageCount}
+                    handlePageChange={handlePageChange}
+                />
+                <ItemsPerPage
+                    itemsPerPageOptions={itemsPerPageOptions}
+                    itemsPerPage={itemsPerPage}
+                    handleItemsPerPageChange={handleItemsPerPageChange}
+                />
             </div>
-            {/* Table displaying file data */}
             <div className="contain">
                 <table className="table table-borderless border-0">
-                    <thead style={{ backgroundColor: '#f2f2f2' }}>
-                        <tr>
-                            <th style={{ textAlign: 'left' }}>Id</th>
-                            <th style={{ textAlign: 'left' }}>Masked PAN</th>
-                            <th style={{ textAlign: 'left' }}>Stan</th>
-                            <th style={{ textAlign: 'left' }}>RRN</th>
-                            <th style={{ textAlign: 'left' }}>Amount</th>
-                            <th style={{ textAlign: 'left' }}>Terminal ID</th>
-                            <th style={{ textAlign: 'left' }}>Transaction Date</th>
-                            <th style={{ textAlign: 'left' }}>Account to be Credited</th>
-                            <th style={{ textAlign: 'left' }}>Actions</th>
-                        </tr>
-                    </thead>
+                    <TableHeader />
                     <tbody>
                         {currentPageData.map((row) => (
-                            <tr key={row.id}>
-                                <td style={{ textAlign: 'left' }}>{row.id}</td>
-                                <td style={{ textAlign: 'left' }}>{row.maskedPan}</td>
-                                <td style={{ textAlign: 'left' }}>{row.stan}</td>
-                                <td style={{ textAlign: 'left' }}>{row.rrn}</td>
-                                <td style={{ textAlign: 'left' }}>{row.amount}</td>
-                                <td style={{ textAlign: 'left' }}>{row.terminalId}</td>
-                                <td style={{ textAlign: 'left' }}>
-                                    {new Date(row.transactionDate).toLocaleString()}
-                                </td>
-                                <td style={{ textAlign: 'left' }}>{row.accountToBeCredited}</td>
-                                <td style={{ textAlign: 'left',}}>
-                                    {isAdmin() ? (
-                                        selectedActions[`${row.stan}-${row.rrn}`] || "N/A"
-                                    ) : (
-                                        <select style={{ backgroundColor:"#f2f2f2", borderRadius:"4px" }} value={selectedActions[`${row.stan}-${row.rrn}`] || ''} onChange={(e) => handleActionSelect(row.stan, row.rrn, e.target.value)}>
-                                            {options.map((option) => (
-                                                <option key={option.value} value={option.value}>
-                                                    {option.label}
-                                                </option>
-                                            ))}
-                                        </select>
-                                    )}
-                                </td>
-                            </tr>
+                            <TableRow
+                                key={row.id}
+                                row={row}
+                                isAdmin={isAdmin}
+                                selectedAction={selectedActions[`${row.stan}-${row.rrn}`]}
+                                handleActionSelect={handleActionSelect}
+                                options={options}
+                            />
                         ))}
                     </tbody>
                 </table>
             </div>
+            {showUploadModal && (
+                <UploadReceiptModal
+                    merchantId={merchantId}
+                    stan={modalStan}
+                    rrn={modalRrn}
+                    token={localStorage.getItem('token')}
+                    onClose={handleModalClose}
+                    onUploadSuccess={handleUploadSuccess}
+                    showUploadModal={showUploadModal}
+                />
+            )}
+            
         </div>
     );
 };
 
 export default IssuerDisputesTable;
- 
