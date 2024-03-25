@@ -1,5 +1,5 @@
-import { cibAboutMe, cibEyeem, cilLockLocked, cilUser } from '@coreui/icons'
-import CIcon from '@coreui/icons-react'
+import { cibAboutMe, cibEyeem, cilLockLocked, cilUser } from '@coreui/icons';
+import CIcon from '@coreui/icons-react';
 import {
   CButton,
   CCard,
@@ -12,22 +12,42 @@ import {
   CInputGroup,
   CInputGroupText,
   CRow,
-} from '@coreui/react'
-import { jwtDecode } from 'jwt-decode'
-import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { useUserRole } from 'src/components/Context/useRoleContext'
-const Login = () => {
-  const navigate = useNavigate()
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [error, setError] = useState('')
-  const [loading, setLoading] = useState(false)
-  const [showPassword, setShowPassword] = useState(false)
-  const { setUserRole, setIsAuthenticated, setMerchantId } = useUserRole()
+} from '@coreui/react';
+import { jwtDecode } from 'jwt-decode';
+import { useEffect, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { useUserRole } from 'src/components/Context/useRoleContext';
 
+const Login = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const { setUserRole, setIsAuthenticated, setMerchantId } = useUserRole();
+
+  useEffect(() => {
+    // Check if authentication token exists in localStorage
+    const token = localStorage.getItem('token');
+    const merchantId = localStorage.getItem('merchantId');
+    const roles = localStorage.getItem('roles');
+    if (token && merchantId && roles) {
+       // Set authentication state based on token existence
+       setUserRole(JSON.parse(roles));
+       setIsAuthenticated(true);
+       setMerchantId(merchantId);
+       // Do not navigate to another route on refresh
+    }
+   }, []); 
+
+  useEffect(() => {
+    // Store the current route in localStorage
+    localStorage.setItem('route', location.pathname);
+  }, [location.pathname]);
   const togglePasswordVisibility = () => {
-    setShowPassword((prevShowPassword) => !prevShowPassword)
+    setShowPassword((prevShowPassword) => !prevShowPassword);
   }
 
   const loginHandler = async () => {
@@ -47,6 +67,7 @@ const Login = () => {
       const data = await response.json()
       const token = data.token
       localStorage.setItem('token', token)
+      
       console.log(token)
       const decodedToken = jwtDecode(token)
       const userRole = decodedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/role']
@@ -146,4 +167,4 @@ const Login = () => {
   )
 }
 
-export default Login
+export default Login;

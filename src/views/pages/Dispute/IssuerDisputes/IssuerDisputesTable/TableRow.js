@@ -130,7 +130,7 @@ const TableRow = ({ row, isAdmin, selectedAction, handleActionSelect, options })
             
             const link = document.createElement('a');
             link.href = url;
-            link.download = 'receipt.pdf'; 
+            link.download = 'receipt.pdf';
             
             link.click();
             
@@ -166,7 +166,7 @@ const TableRow = ({ row, isAdmin, selectedAction, handleActionSelect, options })
             <td>{row.rrn}</td>
             <td>{row.amount}</td>
             <td>{row.terminalId}</td>
-            <td>{new Date(row.transactionDate).toLocaleString()}</td>
+            <td>{new Date(row.transactionDate).toLocaleDateString()}</td>
             <td>{row.accountToBeCredited}</td>
             <td>
                 {isAdmin() ? (
